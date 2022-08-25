@@ -1,0 +1,13 @@
+n:
+---------------
+|B|B|B| |W|W|W|
+---------------
+
+h(n): the number of White tiles on which they have at least one Black tile on
+their left side.
+
+h(n) = 3;
+
+h'(n): the sum of the number of White tiles on each Black tile's right side.
+
+h'(n) = 9.
