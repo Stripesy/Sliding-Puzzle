@@ -1,15 +1,45 @@
-class Puzzle {
+struct Puzzle {
     std::vector<char> currentState;
     int blankPos;
-    public:
-    Puzzle() {
-        currentState = {'B', 'B', 'B', ' ', 'W', 'W', 'W'};
+    int fscore, depth, heuristic;
+    Puzzle *parent = NULL; //used to record the previous state.
+
+    Puzzle(std::vector<char> startState) {
+        currentState = startState;
         blankPos = 2;
     }
-
+    Puzzle(const Puzzle &puzzle) {
+        currentState = puzzle.currentState;
+        blankPos = puzzle.blankPos;
+        fscore = puzzle.fscore;
+        depth = puzzle.depth;
+        heuristic = puzzle.heuristic;
+        parent = puzzle.parent;
+    }
+    bool operator<(const Puzzle& rhs) const;
     bool checkWin();
-    std::vector<std::vector<char>> generateMoves();
+    std::vector<Puzzle> generateMoves();
+    void printBoard();
 };
+
+bool Puzzle::operator<(const Puzzle& rhs) const {
+    if(this->fscore != rhs.fscore)
+        return !(this->fscore < rhs.fscore);
+    else return !(this->currentState < rhs.currentState);
+}
+
+void Puzzle::printBoard() {
+    for(int i = 0; i < currentState.size(); i++) {
+        if(i == 0) {
+            std::cout << "-----------------------------\n";
+            std::cout << "| ";
+        }
+        std::cout <<currentState[i] << " | ";
+        if(i == currentState.size()-1) {
+            std::cout << "\n-----------------------------\n\n";
+        }
+    }
+}
 
 bool Puzzle::checkWin() {
     int wCount;
@@ -27,15 +57,16 @@ bool Puzzle::checkWin() {
     return false;
 }
 
-std::vector<std::vector<char>> Puzzle::generateMoves() {
+std::vector<Puzzle> Puzzle::generateMoves() {
     std::vector<char> tempState;
-    std::vector<std::vector<char>> generatedMoves;
+    std::vector<Puzzle> generatedMoves;
     for(int i = 0; i < currentState.size(); i++) {
         if(abs(i-blankPos) <= 3 && i != blankPos) { //check if within 3 spaces as able to hop over one or two tiles.  
         tempState = currentState;
         tempState[blankPos] = tempState[i];
         tempState[i] = ' ';
-        generatedMoves.push_back(tempState); // swap elements and pushback to generatedMoves vector.
+        Puzzle temp(tempState);
+        generatedMoves.push_back(temp); // swap elements and pushback to generatedMoves vector.
         }
     }
     return generatedMoves;
