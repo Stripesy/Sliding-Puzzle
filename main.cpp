@@ -39,7 +39,7 @@ Puzzle aStar(Puzzle puzzle) {
             return puzzle;
         }
 
-        std::vector<Puzzle> generatedMoves = current.generateMoves(current.depth);
+        std::vector<Puzzle> generatedMoves = current.generateMoves();
 
         for(int i = 0; i < generatedMoves.size(); i++) {
 
