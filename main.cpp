@@ -1,6 +1,7 @@
-#include<iostream>
-#include<vector>
-#include<set>
+#include <iostream>
+#include <vector>
+#include <set>
+#include <algorithm> 
 
 #include "puzzle.h"
 
@@ -38,16 +39,24 @@ Puzzle aStar(Puzzle puzzle) {
             return puzzle;
         }
 
-        Puzzle temp(current);
-
-        std::vector<Puzzle> generatedMoves = puzzle.generateMoves();
+        std::vector<Puzzle> generatedMoves = current.generateMoves(current.depth);
 
         for(int i = 0; i < generatedMoves.size(); i++) {
-            if((openSet.find(temp) != openSet.end()) || (openSet.find(temp) != openSet.end() && (openSet.find(temp)->fscore < temp.fscore))) { 
+
+            Puzzle temp(generatedMoves[i]);
+
+            std::set<Puzzle>::iterator it;
+
+            // check for matching state
+            it = std::find_if(std::begin(openSet), std::end(openSet), [&] (Puzzle const& p) {return p.currentState == temp.currentState;});
+
+            if(it != openSet.end() && (it->fscore <= temp.fscore)) { 
                 // check if temp is in open set or better fscore
                 continue;
             }
-            else if((closedSet.find(temp) != closedSet.end()) || (closedSet.find(temp) != closedSet.end() && (closedSet.find(temp)->fscore < temp.fscore))) { 
+            // check for matching state
+            it = std::find_if(std::begin(closedSet), std::end(closedSet), [&] (Puzzle const& p) {return p.currentState == temp.currentState;});
+            if(it != closedSet.end() && (it->fscore <= temp.fscore)) {
                 // check if in closed set or better fscore
                 continue;
             }
@@ -55,8 +64,8 @@ Puzzle aStar(Puzzle puzzle) {
                 temp.parent = new Puzzle(current);
                 openSet.insert(temp);
             }
-            closedSet.insert(current);
         }
+        closedSet.insert(current);
     }
     return puzzle; // search failed.
 }
