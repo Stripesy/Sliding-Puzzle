@@ -13,11 +13,11 @@ int main() {
     puzzle = aStar(puzzle);
     printPath(&puzzle);
     std::cout << "Solution found in : " << puzzle.depth << "\n";
-    std::cout << "Cost : " << puzzle.cost;
+    std::cout << "Cost : " << puzzle.cost << "\n";
 }
 
 void printPath(Puzzle *puzzle) {
-    if(puzzle->parent == NULL) {
+    if(puzzle == NULL) {
         return;
     }
     else {
