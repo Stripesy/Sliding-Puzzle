@@ -11,7 +11,9 @@ void printPath(Puzzle *puzzle);
 int main() {
     Puzzle puzzle({'B', 'B', 'B', ' ', 'W', 'W', 'W'});
     puzzle = aStar(puzzle);
-
+    printPath(&puzzle);
+    std::cout << "Solution found in : " << puzzle.depth << "\n";
+    std::cout << "Cost : " << puzzle.cost;
 }
 
 void printPath(Puzzle *puzzle) {
@@ -35,8 +37,9 @@ Puzzle aStar(Puzzle puzzle) {
         openSet.erase(openSet.begin()); 
 
         if(current.checkWin()) {
-            std::cout << "Solution found in : " << current.depth;
-            return puzzle;
+            std::cout << "Solution found in : " << current.depth << "\n";
+            std::cout << "Cost : " << current.cost;
+            return current;
         }
 
         std::vector<Puzzle> generatedMoves = current.generateMoves();

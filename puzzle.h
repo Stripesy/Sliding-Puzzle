@@ -92,7 +92,6 @@ std::vector<Puzzle> Puzzle::generateMoves() {
     int tempCost = 0;
     for(int i = 0; i < currentState.size(); i++) {
         if(abs(i-blankPos) <= 3 && i != blankPos) { //check if within 3 spaces as able to hop over one or two tiles.  
-        printBoard();
         if(abs(i-blankPos) == 1) {
             tempCost = 1;
         }
