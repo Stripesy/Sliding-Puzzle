@@ -1,13 +1,5 @@
-n:
----------------
-|B|B|B| |W|W|W|
----------------
+The heuristic used is the number of White tiles with at least one Black tile to their side.
 
-h(n): the number of White tiles on which they have at least one Black tile on
-their left side.
-
-h(n) = 3;
-
-h'(n): the sum of the number of White tiles on each Black tile's right side.
-
-h'(n) = 9.
+The heuristic is admissible as to get past a black tile the white tile must jump over that black tile or multiple.
+The cost for moving over tiles is one per tile. 
+This ensures the h(n) <= Optimal Cost as for each black tile a white tile is able to jump over, thus decreasing the heuristic by one, the cost is increased by one.

@@ -38,7 +38,7 @@ Puzzle aStar(Puzzle puzzle) {
 
         if(current.checkWin()) {
             std::cout << "Solution found in : " << current.depth << "\n";
-            std::cout << "Cost : " << current.cost;
+            std::cout << "Cost : " << current.cost << "\n";
             return current;
         }
 
