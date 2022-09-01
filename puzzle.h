@@ -36,8 +36,12 @@ void Puzzle::calcF() {
 }
 
 bool Puzzle::operator<(const Puzzle& rhs) const {
-    if(this->fscore != rhs.fscore)
+    if(this->fscore != rhs.fscore) {
         return (this->fscore < rhs.fscore);
+    }
+    else if(this->depth != rhs.depth) {
+        return (this->depth < rhs.depth);
+    }
     else return (this->currentState < rhs.currentState);
 }
 
